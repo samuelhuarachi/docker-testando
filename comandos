@@ -1,0 +1,13 @@
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+
+docker network ls
+docker network rm ce60d3977b23
+
+
+
+
+
+
+

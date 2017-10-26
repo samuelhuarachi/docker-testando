@@ -1,0 +1,34 @@
+version: "2.0"
+
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.2.0.0/16
+
+services:
+  web:
+    image: richarvey/nginx-php-fpm
+    ports:
+     - "8050:80"
+    volumes:
+     - ./var/log/nginx:/var/log/nginx
+     - ./:/var/www/html
+    links:
+     - mysql:mysql
+    networks:
+      mynet:
+          ipv4_address: 10.2.0.2
+  mysql:
+    image: mysql:5.7
+    ports:
+     - "33062:3306"
+    volumes:
+     - ./varmysql/lib/mysql:/var/lib/mysql
+    environment:
+     - MYSQL_ROOT_PASSWORD=1234
+     - MYSQL_DATABASE=aguas
+    networks:
+      mynet:
+          ipv4_address: 10.2.0.3
